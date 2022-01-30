@@ -10,7 +10,7 @@ import React.Basic.Hooks as React
 import Data.Int (fromNumber, toNumber)
 import Math (max)
 
-import Data.Maybe (Maybe(..))
+import Data.Maybe (Maybe(..), fromMaybe)
 import Effect.Unsafe (unsafePerformEffect)
 
 mkCounter :: Component {}
@@ -34,9 +34,8 @@ mkCounter = do
                       , children: [ R.text "-" ]
                       , onClick: handler_ do
                           setCount \state ->
-                            case fromNumber $ max (toNumber $ state.count - 1) (toNumber 0) of
-                              Just val -> { count: val }
-                              Nothing -> { count: state.count }
+                            let newCount = fromNumber $ max (toNumber 0) (toNumber (state.count - 1))
+                            in { count: fromMaybe state.count newCount }
                       }
                   ]
               }
